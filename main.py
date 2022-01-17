@@ -39,12 +39,13 @@ def loading_book_content(url, id):
         extension = split_url[1]
         path_url_img = urljoin(url, img_book)
         download_image(path_url_img, id, extension, book.content)
+        parse_book_page(soup)
         # comment_text = (soup.find_all('span', class_='black'))
         # if comment_text:
         #     for comment in comment_text:
         #         print(comment.text)
-        book_genre = (soup.find('span', class_='d_book'))
-        print(book_genre.text)
+        # book_genre = (soup.find('span', class_='d_book'))
+        # print(book_genre.text)
 
 
 def download_txt(content, name_book, id):
@@ -64,6 +65,23 @@ def download_image(path_url_img, id, extension, content):
     save_path = os.path.join(path_img_books, filename)
     with open(save_path, 'wb') as file:
         file.write(img.content)
+
+
+def parse_book_page(soup):
+    title_tag = (soup.find('body').find('h1'))
+    title_text = title_tag.text
+    info_book = title_text.split('::')
+    name_book = info_book[0].strip()
+    name_book = f'{sanitize_filename(name_book)}'
+    print(name_book)
+    book_author = info_book[1].strip()
+    print(book_author)
+    # comment_text = (soup.find_all('span', class_='black'))
+    # if comment_text:
+    #     for comment in comment_text:
+    #         print(comment.text)
+    book_genre = (soup.find('span', class_='d_book'))
+    print(book_genre.text)
 
 
 
