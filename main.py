@@ -1,6 +1,8 @@
 import os
 import requests
 import urllib.parse
+import argparse
+import sys
 
 from os.path import splitext
 from bs4 import BeautifulSoup
@@ -10,6 +12,11 @@ from urllib.parse import urljoin
 from urllib.parse import urlsplit
 
 
+def createParser ():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('start_id', nargs='?', default=1)
+    parser.add_argument('end_id', nargs='?', default=10)
+    return parser
 
 def check_for_redirect(book):
     print('Ошибка')
@@ -87,8 +94,11 @@ def parse_book_page(soup):
 
 
 if __name__ == '__main__':
+    parser = createParser()
+    namespace = parser.parse_args(sys.argv[1:])
+    print(namespace)
     url_book = 'http://tululu.org/txt.php'
-    for id in range(1,11):
+    for id in range(int(namespace.start_id), int(namespace.end_id)+1):
         loading_book_content(url_book, id)
 
 
