@@ -39,6 +39,12 @@ def loading_book_content(url, id):
         extension = split_url[1]
         path_url_img = urljoin(url, img_book)
         download_image(path_url_img, id, extension, book.content)
+        # comment_text = (soup.find_all('span', class_='black'))
+        # if comment_text:
+        #     for comment in comment_text:
+        #         print(comment.text)
+        book_genre = (soup.find('span', class_='d_book'))
+        print(book_genre.text)
 
 
 def download_txt(content, name_book, id):
@@ -67,15 +73,14 @@ if __name__ == '__main__':
     for id in range(1,11):
         loading_book_content(url_book, id)
 
+
     # url_img = 'http://tululu.org/b9/'
     # response = requests.get(url_img)
     # soup = BeautifulSoup(response.text, 'lxml')
     # # print(soup.encode("utf-8"))
-    # img_book = (soup.find('div', class_='bookimage').find('img')['src'])
-    # url = urllib.parse.urlsplit(img_book)
-    # split_url = splitext(url.path)
-    # extension = split_url[1]
-    # print(extension)
+    # book_genre = (soup.find('span', class_='d_book'))
+    # print(book_genre.text)
+    #
 
     # print(urljoin(url_img, img_book))
 
