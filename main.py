@@ -7,9 +7,7 @@ import sys
 from os.path import splitext
 from bs4 import BeautifulSoup
 from pathvalidate import sanitize_filename
-from urllib import parse
 from urllib.parse import urljoin
-from urllib.parse import urlsplit
 
 
 def createParser ():
@@ -17,9 +15,6 @@ def createParser ():
     parser.add_argument('start_id', nargs='?', default=1)
     parser.add_argument('end_id', nargs='?', default=10)
     return parser
-
-def check_for_redirect(book):
-    print('Ошибка')
 
 
 def loading_book_content(url, id):
@@ -47,12 +42,7 @@ def loading_book_content(url, id):
         path_url_img = urljoin(url, img_book)
         download_image(path_url_img, id, extension, book.content)
         parse_book_page(soup)
-        # comment_text = (soup.find_all('span', class_='black'))
-        # if comment_text:
-        #     for comment in comment_text:
-        #         print(comment.text)
-        # book_genre = (soup.find('span', class_='d_book'))
-        # print(book_genre.text)
+
 
 
 def download_txt(content, name_book, id):
@@ -83,10 +73,10 @@ def parse_book_page(soup):
     print(name_book)
     book_author = info_book[1].strip()
     print(book_author)
-    # comment_text = (soup.find_all('span', class_='black'))
-    # if comment_text:
-    #     for comment in comment_text:
-    #         print(comment.text)
+    comment_text = (soup.find_all('span', class_='black'))
+    if comment_text:
+        for comment in comment_text:
+            print(comment.text)
     book_genre = (soup.find('span', class_='d_book'))
     print(book_genre.text)
 
@@ -100,19 +90,5 @@ if __name__ == '__main__':
     url_book = 'http://tululu.org/txt.php'
     for id in range(int(namespace.start_id), int(namespace.end_id)+1):
         loading_book_content(url_book, id)
-
-
-    # url_img = 'http://tululu.org/b9/'
-    # response = requests.get(url_img)
-    # soup = BeautifulSoup(response.text, 'lxml')
-    # # print(soup.encode("utf-8"))
-    # book_genre = (soup.find('span', class_='d_book'))
-    # print(book_genre.text)
-    #
-
-    # print(urljoin(url_img, img_book))
-
-
-    # soup.find('img', class_='attachment-post-image')['src']
 
 
