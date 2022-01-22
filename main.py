@@ -18,28 +18,28 @@ def createparser ():
 
 
 def loading_book_content(url, id):
-    payload = {
+    payload = {                                     # начало запроса
         'id': {id}
     }
     book = requests.get(url, params=payload)
-    book.raise_for_status()
+    book.raise_for_status()                         # Запрос к библиотеке по адресу и id книги
     if book.history == []:
         url = f'https://tululu.org/b{id}/'
         response = requests.get(url)
         response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'lxml')
-        title_tag = (soup.find('body').find('h1'))
-        title_text = title_tag.text
-        info_book = title_text.split('::')
-        name_book = info_book[0].strip()
-        name_book = f'{sanitize_filename(name_book)}'
-        book_author = info_book[1].strip()
+        soup = BeautifulSoup(response.text, 'lxml')         # тут мы преобразуем страницу контента в суп
+        title_tag = soup.find('body').find('h1')          # парсим название
+        title_text = title_tag.text                         # записываем в переменную
+        info_book = title_text.split('::')                   # определяем разделитель
+        name_book = info_book[0].strip()                    # удаляем пробелы
+        name_book = f'{sanitize_filename(name_book)}'       # нормализуем названием книги
+        book_author = info_book[1].strip()                  # Забираем автора из разделенного тайтла
         download_txt(book.content, name_book, id)
-        img_book = (soup.find('div', class_='bookimage').find('img')['src'])
-        url_img = urllib.parse.urlsplit(img_book)
-        split_url = splitext(url_img.path)
-        extension = split_url[1]
-        path_url_img = urljoin(url, img_book)
+        img_book = soup.find('div', class_='bookimage').find('img')['src']
+        url_img = urllib.parse.urlsplit(img_book)           # работаем со ссылкой на изображение
+        split_url = splitext(url_img.path)                   # отделяем нужную часть ссылки
+        extension = split_url[1]                            # забираем 2 элемент списка
+        path_url_img = urljoin(url, img_book)               # соединяем с основным адресом наш элемент
         download_image(path_url_img, id, extension, book.content)
         parse_book_page(soup)
 
@@ -65,7 +65,7 @@ def download_image(path_url_img, id, extension, content):
 
 
 def parse_book_page(soup):
-    title_tag = (soup.find('body').find('h1'))
+    title_tag = soup.find('body').find('h1')
     title_text = title_tag.text
     info_book = title_text.split('::')
     name_book = info_book[0].strip()
@@ -77,7 +77,7 @@ def parse_book_page(soup):
     if comment_text:
         for comment in comment_text:
             print(comment.text)
-    book_genre = (soup.find('span', class_='d_book'))
+    book_genre = soup.find('span', class_='d_book')
     print(book_genre.text)
 
 
