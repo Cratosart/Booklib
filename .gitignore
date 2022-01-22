@@ -110,6 +110,8 @@ venv.bak/
 /site
 /image_nasa
 /.idea
+/books
+/images
 
 # mypy
 .mypy_cache/
