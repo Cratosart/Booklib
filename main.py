@@ -87,7 +87,7 @@ if __name__ == '__main__':
     parser = createparser()
     args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
-    for id in range(int(args.start_id), int(args.end_id)+1):
-        loading_book_content(url_book, id)
+    for id_books in range(int(args.start_id), int(args.end_id)+1):
+        loading_book_content(url_book, id_books)
 
 
