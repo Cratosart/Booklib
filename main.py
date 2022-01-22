@@ -85,9 +85,9 @@ def parse_book_page(soup):
 
 if __name__ == '__main__':
     parser = createparser()
-    namespace = parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
-    for id in range(int(namespace.start_id), int(namespace.end_id)+1):
+    for id in range(int(args.start_id), int(args.end_id)+1):
         loading_book_content(url_book, id)
 
 
