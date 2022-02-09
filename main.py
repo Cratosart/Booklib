@@ -12,8 +12,8 @@ from urllib.parse import urljoin
 
 def createparser ():
     parser = argparse.ArgumentParser()
-    parser.add_argument('start_id', nargs='?', default=1)
-    parser.add_argument('end_id', nargs='?', default=10)
+    parser.add_argument('start_id', nargs='?', default=1, type=int)
+    parser.add_argument('end_id', nargs='?', default=10, type=int)
     return parser
 
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
     url_content = 'https://tululu.org/b'
-    for identifier in range(int(args.start_id), int(args.end_id)+1):
+    for identifier in range(args.start_id, args.end_id+1):
         # loading_book_content(url_book, id)
         url_content = f'https://tululu.org/b{identifier}/'
         download_txt(url_book, identifier, url_content)
