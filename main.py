@@ -36,7 +36,7 @@ def download_image(url_content):
     response = requests.get(url_content)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'lxml')
-    img_book = (soup.find('div', class_='bookimage').find('img')['src'])
+    img_book = soup.find('div', class_='bookimage').find('img')['src']
     url_img = urllib.parse.urlsplit(img_book)
     split_url = splitext(url_img.path)
     extension = split_url[1]
@@ -54,11 +54,11 @@ def get_comment(url_content):
     response = requests.get(url_content)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'lxml')
-    comment_text = (soup.find_all('span', class_='black'))
+    comment_text = soup.find_all('span', class_='black')
     if comment_text:
         for comment in comment_text:
             print(comment.text)
-    book_genre = (soup.find('span', class_='d_book'))
+    book_genre = soup.find('span', class_='d_book')
     print(book_genre.text)
 
 def save_book(content, book_name, identifier):
@@ -66,7 +66,7 @@ def save_book(content, book_name, identifier):
     os.makedirs(path_books, exist_ok=True)
     filename = f'{identifier}. {book_name}.txt'
     save_path = os.path.join(path_books, filename)
-    with open(f'{save_path}', 'wb') as file:
+    with open(save_path, 'wb') as file:
         file.write(content)
 
 
@@ -74,7 +74,7 @@ def parse_book_page(url_content):
     response = requests.get(url_content)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'lxml')
-    title_tag = (soup.find('body').find('h1'))
+    title_tag = soup.find('body').find('h1')
     title_text = title_tag.text
     info_book = title_text.split('::')
     name_book = info_book[0].strip()
