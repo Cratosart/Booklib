@@ -23,11 +23,13 @@ def download_txt(url_book, identifier, url_content):
         }
     book = requests.get(url_book, params=payload)
     book.raise_for_status()
-    if book.history == []:
-        book_author, book_name = parse_book_page(url_content)
-        save_book(book.content, book_name, identifier)
-        get_comment(url_content)
-        download_image(url_content)
+    for redirect in book.history:
+        if not redirect == []:
+            return
+    book_author, book_name = parse_book_page(url_content)
+    save_book(book.content, book_name, identifier)
+    get_comment(url_content)
+    download_image(url_content)
 
 
 def download_image(url_content):
