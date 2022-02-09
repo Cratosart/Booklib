@@ -68,14 +68,14 @@ def parse_book_page(url_content):
     soup = BeautifulSoup(response.text, 'lxml')
     title_tag = soup.find('body').find('h1')
     title_text = title_tag.text
-    info_book = title_text.split('::')
-    name_book = info_book[0].strip()
+    title_author = title_text.split('::')
+    title, author = title_author
+    name_book = title.strip()
+    book_author = author.strip()
     name_book = f'{sanitize_filename(name_book)}'
-    book_author = info_book[1].strip()
     img_book = soup.find('div', class_='bookimage').find('img')['src']
     url_img = urllib.parse.urlsplit(img_book)
     return book_author, name_book, soup, url_img, img_book
-
 
 
 if __name__ == '__main__':
