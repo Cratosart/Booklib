@@ -27,7 +27,7 @@ def download_txt(url_book, identifier, url_content):
         if not redirect == []:
             return
     book_author, book_name, soup, url_img, img_book = parse_book_page(url_content)
-    save_book(book.content, book_name, identifier)
+    save_book(book.text, book_name, identifier)
     get_comment(soup)
     download_image(url_content, url_img, img_book)
 
@@ -58,7 +58,7 @@ def save_book(content, book_name, identifier):
     os.makedirs(path_books, exist_ok=True)
     filename = f'{identifier}. {book_name}.txt'
     save_path = os.path.join(path_books, filename)
-    with open(save_path, 'wb') as file:
+    with open(save_path, 'w') as file:
         file.write(content)
 
 
