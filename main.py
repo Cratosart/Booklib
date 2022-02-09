@@ -23,7 +23,6 @@ def download_txt(url_book, id, url_content):
         }
     book = requests.get(url_book, params=payload)
     book.raise_for_status()
-    print(url_content)
     if book.history == []:
         book_author, book_name = parse_book_page(url_content)
         save_book(book.content, book_name, id)
@@ -86,7 +85,6 @@ def parse_book_page(url_content):
 if __name__ == '__main__':
     parser = createparser()
     namespace = parser.parse_args(sys.argv[1:])
-    print(namespace)
     url_book = 'http://tululu.org/txt.php'
     url_content = 'https://tululu.org/b'
     for id in range(int(namespace.start_id), int(namespace.end_id)+1):
