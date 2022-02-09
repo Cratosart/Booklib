@@ -26,15 +26,13 @@ def download_txt(url_book, identifier, url_content):
     for redirect in book.history:
         if not redirect == []:
             return
-    book_author, book_name, soup = parse_book_page(url_content)
+    book_author, book_name, soup, url_img, img_book = parse_book_page(url_content)
     save_book(book.content, book_name, identifier)
     get_comment(soup)
-    download_image(url_content, soup)
+    download_image(url_content, url_img, img_book)
 
 
-def download_image(url_content, soup):
-    img_book = soup.find('div', class_='bookimage').find('img')['src']
-    url_img = urllib.parse.urlsplit(img_book)
+def download_image(url_content, url_img, img_book):
     split_url = splitext(url_img.path)
     extension = split_url[1]
     path_url_img = urljoin(url_content, img_book)
@@ -74,7 +72,9 @@ def parse_book_page(url_content):
     name_book = info_book[0].strip()
     name_book = f'{sanitize_filename(name_book)}'
     book_author = info_book[1].strip()
-    return book_author, name_book, soup
+    img_book = soup.find('div', class_='bookimage').find('img')['src']
+    url_img = urllib.parse.urlsplit(img_book)
+    return book_author, name_book, soup, url_img, img_book
 
 
 
