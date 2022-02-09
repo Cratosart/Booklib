@@ -84,10 +84,10 @@ def parse_book_page(url_content):
 
 if __name__ == '__main__':
     parser = createparser()
-    namespace = parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
     url_content = 'https://tululu.org/b'
-    for id in range(int(namespace.start_id), int(namespace.end_id)+1):
+    for id in range(int(args.start_id), int(args.end_id)+1):
         # loading_book_content(url_book, id)
         url_content = f'https://tululu.org/b{id}/'
         download_txt(url_book, id, url_content)
