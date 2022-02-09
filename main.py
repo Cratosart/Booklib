@@ -17,15 +17,15 @@ def createparser ():
     return parser
 
 
-def download_txt(url_book, id, url_content):
+def download_txt(url_book, identifier, url_content):
     payload = {
-            'id': {id}
+            'id': {identifier}
         }
     book = requests.get(url_book, params=payload)
     book.raise_for_status()
     if book.history == []:
         book_author, book_name = parse_book_page(url_content)
-        save_book(book.content, book_name, id)
+        save_book(book.content, book_name, identifier)
         get_comment(url_content)
         download_image(url_content)
 
@@ -41,7 +41,7 @@ def download_image(url_content):
     path_url_img = urljoin(url_content, img_book)
     path_img_books = 'images'
     os.makedirs(path_img_books, exist_ok=True)
-    filename = f'{id}{extension}'
+    filename = f'{identifier}{extension}'
     img = requests.get(path_url_img)
     save_path = os.path.join(path_img_books, filename)
     with open(save_path, 'wb') as file:
@@ -59,10 +59,10 @@ def get_comment(url_content):
     book_genre = (soup.find('span', class_='d_book'))
     print(book_genre.text)
 
-def save_book(content, book_name, id):
+def save_book(content, book_name, identifier):
     path_books = 'Books'
     os.makedirs(path_books, exist_ok=True)
-    filename = f'{id}. {book_name}.txt'
+    filename = f'{identifier}. {book_name}.txt'
     save_path = os.path.join(path_books, filename)
     with open(f'{save_path}', 'wb') as file:
         file.write(content)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
     url_content = 'https://tululu.org/b'
-    for id in range(int(args.start_id), int(args.end_id)+1):
+    for identifier in range(int(args.start_id), int(args.end_id)+1):
         # loading_book_content(url_book, id)
-        url_content = f'https://tululu.org/b{id}/'
-        download_txt(url_book, id, url_content)
+        url_content = f'https://tululu.org/b{identifier}/'
+        download_txt(url_book, identifier, url_content)
