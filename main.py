@@ -25,7 +25,7 @@ def download_txt(url_book, identifier, url_content):
     book = requests.get(url_book, params=payload)
     book.raise_for_status()
     for redirect in book.history:
-        if not redirect == []:
+        if redirect:
             return
     book_author, book_name, soup, url_img, img_book = parse_book_page(url_content)
     save_book(book.text, book_name, identifier)
