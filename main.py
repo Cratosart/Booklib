@@ -10,7 +10,8 @@ from pathvalidate import sanitize_filename
 from urllib.parse import urljoin
 
 
-def createparser ():
+
+def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('start_id', nargs='?', default=1, type=int)
     parser.add_argument('end_id', nargs='?', default=10, type=int)
@@ -79,7 +80,7 @@ def parse_book_page(url_content):
 
 
 if __name__ == '__main__':
-    parser = createparser()
+    parser = create_parser()
     args = parser.parse_args(sys.argv[1:])
     url_book = 'http://tululu.org/txt.php'
     url_content = 'https://tululu.org/b'
